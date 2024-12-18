@@ -1,5 +1,6 @@
 #include "Figure.h"
 
+
 class Board {
 public:
     std::list<Figure*> WhiteFigures;  

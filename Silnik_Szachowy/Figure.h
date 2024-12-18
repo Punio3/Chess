@@ -12,14 +12,21 @@ enum FigureType {
 	none
 };
 
+enum Color {
+	white,
+	black,
+	noColor
+};
+
 class Figure {
 public:
 	Position Pos;
 	FigureType Type;
 	bool CantMove;
+	Color FigureColor;
 	
 
-	virtual std::list<Position> PossibleMoves() = 0;
+	virtual std::list<Position> PossibleMoves(Figure*** _Board,int Size) = 0;
 	void MakeMove(Position pos);
 
 	Figure();

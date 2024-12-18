@@ -1,17 +1,19 @@
 #include "Queen.h"
 
-Queen::Queen(Position pos) {
+Queen::Queen(Position pos, Color col) {
 	Pos = pos;
 	Type = FigureType::queen;
 	CantMove = false;
+	FigureColor = col;
 }
 
 Queen::Queen() {
 	Pos = Position();
 	Type = FigureType::queen;
 	CantMove = false;
+	FigureColor = noColor;
 }
 
-std::list<Position> Queen::PossibleMoves() {
+std::list<Position> Queen::PossibleMoves(Figure*** _Board, int Size) {
 	return std::list<Position>();
 }

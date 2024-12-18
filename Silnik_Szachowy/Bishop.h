@@ -2,8 +2,8 @@
 
 class Bishop : public Figure {
 public:
-	std::list<Position> PossibleMoves() override;
+	std::list<Position> PossibleMoves(Figure*** _Board, int Size) override;
 
 	Bishop();
-	Bishop(Position pos);
+	Bishop(Position pos,Color col);
 };
