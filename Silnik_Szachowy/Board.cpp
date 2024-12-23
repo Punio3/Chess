@@ -6,6 +6,11 @@
 #include "Bishop.h"
 #include "Queen.h"
 #include "King.h"
+#include "EmptyFigure.h"
+
+#define RED "\033[31m"
+#define RESET "\033[0m"
+
 
 Board::Board(int size) : Size(size) {
     _Board = new Figure * *[Size];
@@ -56,6 +61,11 @@ void Board::InitializeBoard() {
     BlackFigures.push_back(new Horse(Position(0, 6), Color::black));
     BlackFigures.push_back(new Rook(Position(0, 7), Color::black));
 
+    for (int i = 2; i < 6; i++) {
+        for (int k = 0; k < 8; k++) {
+            _Board[i][k] = new EmptyFigure(Position(i,k),Color::noColor);
+        }
+    }
 
     for (Figure* fig : WhiteFigures) {
         _Board[fig->Pos.x][fig->Pos.y] = fig;
@@ -67,13 +77,22 @@ void Board::InitializeBoard() {
 }
 
 Board::~Board() {
-    for (int i = 0; i < Size; i++) {
-        for (int j = 0; j < Size; j++) {
-            delete _Board[i][j];  
-        }
-        delete[] _Board[i]; 
+    for (Figure* figure : WhiteFigures) {
+        delete figure;
     }
-    delete[] _Board; 
+    WhiteFigures.clear();
+
+    for (Figure* figure : BlackFigures) {
+        delete figure;
+    }
+    BlackFigures.clear();
+
+    if (_Board != nullptr) {
+        for (int i = 0; i < Size; ++i) {
+            delete[] _Board[i]; 
+        }
+        delete[] _Board;
+    }
 }
 
 
@@ -92,13 +111,22 @@ void Board::DisplayBoard() {
                 std::cout << i+1<<" |";
             }
             if (_Board[i][j] != nullptr) {
-                if (_Board[i][j]->Type == king) std::cout << " K |";
-                else if (_Board[i][j]->Type == queen)std::cout << " Q |";
-                else if (_Board[i][j]->Type == bishop)std::cout << " B |";
-                else if (_Board[i][j]->Type == rook)std::cout << " R |";
-                else if (_Board[i][j]->Type == horse)std::cout << " H |";
-                else if (_Board[i][j]->Type == pawn)std::cout << " P |";                
-            }  else std::cout << "   |";
+                std::cout << " ";
+                if (_Board[i][j]->CanBeAttacked)std::cout << RED;
+
+                if (_Board[i][j]->Type == king) std::cout << "K";
+                else if (_Board[i][j]->Type == queen) std::cout << "Q";
+                else if (_Board[i][j]->Type == bishop) std::cout << "B";
+                else if (_Board[i][j]->Type == rook) std::cout << "R";
+                else if (_Board[i][j]->Type == horse) std::cout << "H";
+                else if (_Board[i][j]->Type == pawn) std::cout << "P"; 
+                else if (_Board[i][j]->CanBeAttacked && _Board[i][j]->Type == none) std::cout << "X";
+                else if (!_Board[i][j]->CanBeAttacked && _Board[i][j]->Type == none) std::cout << " ";
+            }
+
+            
+            
+            std::cout << RESET << " |";
         }
         std::cout<<std::endl << "  ";
         for (int k = 0; k < Size; k++) std::cout << " ---";
@@ -109,9 +137,15 @@ void Board::DisplayBoard() {
 
 void Board::DoMove(Position first,Position second) {
     _Board[second.x][second.y] = _Board[first.x][first.y];
-    _Board[first.x][first.y] = nullptr;
+    _Board[first.x][first.y] = new EmptyFigure(Position(first.x,first.y),Color::noColor);
     if (_Board[second.x][second.y] != nullptr) {
         _Board[second.x][second.y]->Pos.x = second.x;
         _Board[second.x][second.y]->Pos.y = second.y;
+    }
+}
+
+void Board::ClearAttackedFields(std::list<Position> ListOfPositions) {
+    for (Position pos : ListOfPositions) {
+        _Board[pos.x][pos.y]->CanBeAttacked = false;
     }
 }

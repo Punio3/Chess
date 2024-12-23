@@ -5,6 +5,7 @@ King::King(Position pos, Color col) {
 	Type = FigureType::king;
 	CantMove = false;
 	isChecked = false;
+	CanBeAttacked = false;
 	CanRoszada = true;
 	FigureColor = col;
 }
@@ -14,10 +15,15 @@ King::King() {
 	Type = FigureType::king;
 	CantMove = false;
 	isChecked = false;
+	CanBeAttacked = false;
 	CanRoszada = true;
 	FigureColor = noColor;
 }
 
 std::list<Position> King::PossibleMoves(Figure*** _Board, int Size) {
+
+
+
+
 	return std::list<Position>();
 }

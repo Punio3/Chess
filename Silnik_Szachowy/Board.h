@@ -11,6 +11,7 @@ public:
     Board(int size);  
 
     void DisplayBoard();  
+    void ClearAttackedFields(std::list<Position> ListOfPositions);
     void DoMove(Position first, Position second);  
 
     ~Board(); 

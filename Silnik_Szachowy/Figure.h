@@ -23,6 +23,7 @@ public:
 	Position Pos;
 	FigureType Type;
 	bool CantMove;
+	bool CanBeAttacked;
 	Color FigureColor;
 	
 

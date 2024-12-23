@@ -4,6 +4,7 @@ Bishop::Bishop(Position pos, Color col) {
 	Pos = pos;
 	Type = FigureType::bishop;
 	CantMove = false;
+	CanBeAttacked = false;
 	FigureColor = col;
 }
 
@@ -11,6 +12,7 @@ Bishop::Bishop() {
 	Pos = Position();
 	Type = FigureType::bishop;
 	CantMove = false;
+	CanBeAttacked = false;
 	FigureColor = noColor;
 }
 
