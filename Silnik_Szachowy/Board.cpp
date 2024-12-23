@@ -9,6 +9,7 @@
 #include "EmptyFigure.h"
 
 #define RED "\033[31m"
+#define BLUE "\033[34m"
 #define RESET "\033[0m"
 
 
@@ -112,7 +113,9 @@ void Board::DisplayBoard() {
             }
             if (_Board[i][j] != nullptr) {
                 std::cout << " ";
+                if (_Board[i][j]->FigureColor == black) std::cout << BLUE;
                 if (_Board[i][j]->CanBeAttacked)std::cout << RED;
+                
 
                 if (_Board[i][j]->Type == king) std::cout << "K";
                 else if (_Board[i][j]->Type == queen) std::cout << "Q";
