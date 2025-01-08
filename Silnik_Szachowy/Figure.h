@@ -24,11 +24,13 @@ public:
 	FigureType Type;
 	bool CantMove;
 	bool CanBeAttacked;
+	bool isCheckedByEnemy;
+	bool isZwiazany; //czy figura chroni krola przed wroga figura
 	Color FigureColor;
 	
 
 	virtual std::list<Position> PossibleMoves(Figure*** _Board,int Size) = 0;
-	void MakeMove(Position pos);
+	virtual void MakeMove(Figure*** board, Position second) = 0;
 
 	Figure();
 };

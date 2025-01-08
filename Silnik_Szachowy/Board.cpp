@@ -12,6 +12,17 @@
 #define BLUE "\033[34m"
 #define RESET "\033[0m"
 
+Board::Board() {
+    Size = 8;
+    _Board = new Figure * *[Size];
+    for (int i = 0; i < Size; i++) {
+        _Board[i] = new Figure * [Size];
+        for (int j = 0; j < Size; j++) {
+            _Board[i][j] = nullptr;
+        }
+    }
+    InitializeBoard();
+}
 
 Board::Board(int size) : Size(size) {
     _Board = new Figure * *[Size];
@@ -26,6 +37,9 @@ Board::Board(int size) : Size(size) {
 }
 
 void Board::InitializeBoard() {
+    BlackKing = _Board[0][4];
+    WhiteKing = _Board[7][4];
+
     WhiteFigures.push_back(new Pawn(Position(6, 0), Color::white)); 
     WhiteFigures.push_back(new Pawn(Position(6, 1), Color::white));
     WhiteFigures.push_back(new Pawn(Position(6, 2), Color::white));
@@ -97,7 +111,13 @@ Board::~Board() {
 }
 
 
-void Board::DisplayBoard() {
+void Board::DisplayBoard(Player player) {
+    if (player == Playerwhite) {
+        std::cout << "Ruch bialego\n";
+    }
+    else {
+        std::cout << BLUE << "Ruch czarnego\n"<<RESET;
+    }
     std::cout << " ";
     for (int k = 0; k < Size; k++) std::cout << "   "<<k+1;
     std::cout << std::endl;
@@ -151,4 +171,35 @@ void Board::ClearAttackedFields(std::list<Position> ListOfPositions) {
     for (Position pos : ListOfPositions) {
         _Board[pos.x][pos.y]->CanBeAttacked = false;
     }
+}
+
+void Board::AddCheckedFields(std::list<Figure*> Figures) {
+    for (Figure* figure : Figures) {
+        std::list<Position> Positions;
+        if (figure->Type != pawn) Positions = figure->PossibleMoves(_Board, Size);
+        else {
+            Pawn* pawn = dynamic_cast<Pawn*>(figure);
+            if (pawn) {
+                Positions = pawn->CheckedFields(_Board, Size);
+            }
+        }
+
+        for (Position Pos : Positions) {
+            _Board[Pos.x][Pos.y]->isCheckedByEnemy = true;
+        }
+        ClearAttackedFields(Positions);
+    }
+
+}
+
+void Board::ClearCheckedFields(std::list<Figure*> Figures) {
+    for (Figure* figure : Figures) {
+        std::list<Position> Positions = figure->PossibleMoves(_Board, Size);
+        figure->isZwiazany = false;
+        for (Position Pos : Positions) {
+            _Board[Pos.x][Pos.y]->isCheckedByEnemy = false;
+        }
+        ClearAttackedFields(Positions);
+    }
+
 }
