@@ -20,6 +20,7 @@ void GameState::ChangeWhoMoves() {
 void GameState::MakeMove() {
     int x1, x2, y1, y2;
     std::cin >> x1 >> y1 >> x2 >> y2;
+    _Board->ClearCheckedFieldsForOneFigure(_Board->_Board[x1 - 1][y1 - 1]);
     _Board->_Board[x1 - 1][y1 - 1]->MakeMove(_Board->_Board, Position(x2 - 1, y2 - 1));
 
     if (WhoMoves == white) {

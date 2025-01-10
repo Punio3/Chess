@@ -26,11 +26,13 @@ public:
 	bool CanBeAttacked;
 	bool isCheckedByEnemy;
 	bool isZwiazany; //czy figura chroni krola przed wroga figura
+	std::list<Position> AttackedMovesWhenIsZwiazany;
 	Color FigureColor;
 	
 
 	virtual std::list<Position> PossibleMoves(Figure*** _Board,int Size) = 0;
 	virtual void MakeMove(Figure*** board, Position second) = 0;
+	std::list<Position> GiveListOfDuplicateFields(std::list<Position> first, std::list<Position> second);
 
 	Figure();
 };

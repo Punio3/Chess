@@ -194,12 +194,29 @@ void Board::AddCheckedFields(std::list<Figure*> Figures) {
 
 void Board::ClearCheckedFields(std::list<Figure*> Figures) {
     for (Figure* figure : Figures) {
+
         std::list<Position> Positions = figure->PossibleMoves(_Board, Size);
+        if (figure->isZwiazany) {
+            figure->AttackedMovesWhenIsZwiazany.clear();
+        }
         figure->isZwiazany = false;
+
         for (Position Pos : Positions) {
             _Board[Pos.x][Pos.y]->isCheckedByEnemy = false;
         }
         ClearAttackedFields(Positions);
     }
+}
 
+void Board::ClearCheckedFieldsForOneFigure(Figure* figure) {
+    std::list<Position> Positions = figure->PossibleMoves(_Board, Size);
+    if (figure->isZwiazany) {
+        figure->AttackedMovesWhenIsZwiazany.clear();
+    }
+    figure->isZwiazany = false;
+
+    for (Position Pos : Positions) {
+        _Board[Pos.x][Pos.y]->isCheckedByEnemy = false;
+    }
+    ClearAttackedFields(Positions);
 }

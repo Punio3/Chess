@@ -8,6 +8,7 @@ Horse::Horse(Position pos, Color col) {
 	CanBeAttacked = false;
 	isCheckedByEnemy = false;
 	isZwiazany = false;
+	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
 
@@ -18,6 +19,7 @@ Horse::Horse() {
 	CanBeAttacked = false;
 	isCheckedByEnemy = false;
 	isZwiazany = false;
+	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
 

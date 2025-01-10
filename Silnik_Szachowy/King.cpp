@@ -12,6 +12,7 @@ King::King(Position pos, Color col) {
 	CanRoszada = true;
 	isCheckedByEnemy = false;
 	isZwiazany = false;
+	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
 
@@ -25,6 +26,7 @@ King::King() {
 	CanRoszada = true;
 	isCheckedByEnemy = false;
 	isZwiazany = false;
+	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
 

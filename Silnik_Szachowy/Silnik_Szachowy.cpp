@@ -1,6 +1,13 @@
 ﻿#include <iostream>
 #include "GameState.h"
-//zwiazanie figury( trzeba dodac mozliwe ruchy gdy jest zwiazany dla krolowej,wiezy,gonca), szachowany krol, 
+// Mozliwa optymalizacja( dodanie osobnych zmiennych pol atakowanych przez biale i czarne -> wtedy nie trzeba czyscic pol po kazdej turze
+// Dodanie wskaznika na figury zwiazana i jej mozliwe ruchy
+// 
+
+// czasami cos zle wiaze figury
+// to prawie zrobione -> zwiazanie figury( trzeba dodac mozliwe ruchy gdy jest zwiazany dla krolowej,wiezy,gonca), 
+// trzeba dodac usuwanie atakowanych pol jak figura jest zbita
+// szachowany krol, 
 // ruszanie sie po mozliwych ruchach, pat, mat, punkty figur, logika gry(kto gra,kto ma ruch,czy sie skonczyla gra)
 // minmax(alpha,beta), ocena stanu
 using namespace std;

@@ -5,4 +5,6 @@ public:
 
 	Position();
 	Position(int x, int y);
+
+	bool ComparePositions(Position other);
 };
