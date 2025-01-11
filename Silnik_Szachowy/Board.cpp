@@ -11,6 +11,7 @@
 #define RED "\033[31m"
 #define BLUE "\033[34m"
 #define RESET "\033[0m"
+#define YELLOW "\033[33m"
 
 Board::Board() {
     Size = 8;
@@ -39,6 +40,7 @@ Board::Board(int size) : Size(size) {
 void Board::InitializeBoard() {
     BlackKing = _Board[0][4];
     WhiteKing = _Board[7][4];
+    FigureWithShowedMoves = nullptr;
 
     WhiteFigures.push_back(new Pawn(Position(6, 0), Color::white)); 
     WhiteFigures.push_back(new Pawn(Position(6, 1), Color::white));
@@ -135,7 +137,7 @@ void Board::DisplayBoard(Player player) {
                 std::cout << " ";
                 if (_Board[i][j]->FigureColor == black) std::cout << BLUE;
                 if (_Board[i][j]->CanBeAttacked)std::cout << RED;
-                
+                if (_Board[i][j]->isZwiazany)std::cout << YELLOW;
 
                 if (_Board[i][j]->Type == king) std::cout << "K";
                 else if (_Board[i][j]->Type == queen) std::cout << "Q";
@@ -167,11 +169,6 @@ void Board::DoMove(Position first,Position second) {
     }
 }
 
-void Board::ClearAttackedFields(std::list<Position> ListOfPositions) {
-    for (Position pos : ListOfPositions) {
-        _Board[pos.x][pos.y]->CanBeAttacked = false;
-    }
-}
 
 void Board::AddCheckedFields(std::list<Figure*> Figures) {
     for (Figure* figure : Figures) {
@@ -187,7 +184,6 @@ void Board::AddCheckedFields(std::list<Figure*> Figures) {
         for (Position Pos : Positions) {
             _Board[Pos.x][Pos.y]->isCheckedByEnemy = true;
         }
-        ClearAttackedFields(Positions);
     }
 
 }
@@ -204,7 +200,6 @@ void Board::ClearCheckedFields(std::list<Figure*> Figures) {
         for (Position Pos : Positions) {
             _Board[Pos.x][Pos.y]->isCheckedByEnemy = false;
         }
-        ClearAttackedFields(Positions);
     }
 }
 
@@ -218,5 +213,16 @@ void Board::ClearCheckedFieldsForOneFigure(Figure* figure) {
     for (Position Pos : Positions) {
         _Board[Pos.x][Pos.y]->isCheckedByEnemy = false;
     }
-    ClearAttackedFields(Positions);
+}
+
+void Board::ClearAttackedFields(std::list<Position> ListOfPositions) {
+    for (Position tmp : ListOfPositions) {
+        _Board[tmp.x][tmp.y]->CanBeAttacked = false;
+    }
+}
+
+void Board::AddAttackedFields(std::list<Position> ListOfPositions) {
+    for (Position tmp : ListOfPositions) {
+        _Board[tmp.x][tmp.y]->CanBeAttacked = true;
+    }
 }

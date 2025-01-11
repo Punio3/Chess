@@ -88,10 +88,6 @@ std::list<Position> King::PossibleMoves(Figure*** _Board, int Size) {
 
 
 
-	for (Position pos : ListOfMoves) {
-		_Board[pos.x][pos.y]->CanBeAttacked = true;
-	}
-
 	return ListOfMoves;
 }
 

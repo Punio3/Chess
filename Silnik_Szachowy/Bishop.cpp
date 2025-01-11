@@ -165,10 +165,6 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 		ListOfMoves = GiveListOfDuplicateFields(ListOfMoves, AttackedMovesWhenIsZwiazany);
 	}
 
-	for (Position pos : ListOfMoves) {
-		_Board[pos.x][pos.y]->CanBeAttacked = true;
-	}
-
 	return ListOfMoves;
 }
 

@@ -14,6 +14,7 @@ public:
     Figure*** _Board;
     Figure* BlackKing;
     Figure* WhiteKing;
+    Figure* FigureWithShowedMoves;
     int Size;         
 
     Board();
@@ -21,6 +22,7 @@ public:
 
     void DisplayBoard(Player player);  
     void ClearAttackedFields(std::list<Position> ListOfPositions);
+    void AddAttackedFields(std::list<Position> ListOfPositions);
     void AddCheckedFields(std::list<Figure*> Figures);
     void ClearCheckedFields(std::list<Figure*> Figures);
     void ClearCheckedFieldsForOneFigure(Figure* figure);

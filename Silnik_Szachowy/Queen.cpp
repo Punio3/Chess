@@ -42,7 +42,7 @@ std::list<Position> Queen::PossibleMoves(Figure*** _Board, int Size) {
 					if (!ZwiazanieWystapilo) {
 						for (int j = i + 1; j < Size; j++) {
 							if (Pos.x - j >= 0) {
-								if (_Board[Pos.x - i][Pos.y]->Type == king && _Board[Pos.x - i][Pos.y]->FigureColor != FigureColor) {
+								if (_Board[Pos.x - j][Pos.y]->Type == king && _Board[Pos.x - j][Pos.y]->FigureColor != FigureColor) {
 									_Board[Pos.x - i][Pos.y]->isZwiazany = true;
 									ZwiazanieWystapilo = true;
 
@@ -52,7 +52,7 @@ std::list<Position> Queen::PossibleMoves(Figure*** _Board, int Size) {
 									}
 									break;
 								}
-								else if (_Board[Pos.x - i][Pos.y]->Type != none) break;
+								else if (_Board[Pos.x - j][Pos.y]->Type != none) break;
 							}
 						}
 					}
@@ -138,7 +138,7 @@ std::list<Position> Queen::PossibleMoves(Figure*** _Board, int Size) {
 					if (!ZwiazanieWystapilo) {
 						for (int j = i + 1; j < Size; j++) {
 							if (Pos.y + j < Size) {
-								if (_Board[Pos.x][Pos.y + j]->Type != king && _Board[Pos.x][Pos.y + j]->FigureColor != FigureColor) {
+								if (_Board[Pos.x][Pos.y + j]->Type == king && _Board[Pos.x][Pos.y + j]->FigureColor != FigureColor) {
 									_Board[Pos.x][Pos.y + i]->isZwiazany = true;
 									ZwiazanieWystapilo = true;
 
@@ -148,7 +148,7 @@ std::list<Position> Queen::PossibleMoves(Figure*** _Board, int Size) {
 									}
 									break;
 								}
-								else if (_Board[Pos.x][Pos.y + j]->Type != king) break;
+								else if (_Board[Pos.x][Pos.y + j]->Type != none) break;
 							}
 						}
 					}
@@ -297,10 +297,6 @@ std::list<Position> Queen::PossibleMoves(Figure*** _Board, int Size) {
 	
 	if (isZwiazany) {
 		ListOfMoves = GiveListOfDuplicateFields(ListOfMoves, AttackedMovesWhenIsZwiazany);
-	}
-
-	for (Position pos : ListOfMoves) {
-		_Board[pos.x][pos.y]->CanBeAttacked = true;
 	}
 
 	return ListOfMoves;
