@@ -98,5 +98,6 @@ void King::MakeMove(Figure*** board, Position second) {
 			board[second.x][second.y]->Pos.x = second.x;
 			board[second.x][second.y]->Pos.y = second.y;
 		}
+		if(!isMovedOrDoneRoszada) isMovedOrDoneRoszada = true;
 
 }

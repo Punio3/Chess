@@ -4,7 +4,8 @@
 // Dodanie wskaznika na figury zwiazana i jej mozliwe ruchy
 // 
 
-// dobrze wiaze figury ale cos nie usuwa parametru iszwiazany dla figury ktora nie jest aktualnie w turze ( czyli tura jest bialych a widac ze zwiazany jest czarny pion na przklad) 
+// dobrze wiaze figury ale cos nie usuwa parametru iszwiazany dla figury ktora nie jest 
+// aktualnie w turze ( czyli tura jest bialych a widac ze zwiazany jest czarny pion na przklad) ---- ZROBIONE RACZEJ DZIALA
 // trzeba dodac usuwanie atakowanych pol jak figura jest zbita
 // szachowany krol, 
 // ruszanie sie po mozliwych ruchach, pat, mat, punkty figur, logika gry(kto gra,kto ma ruch,czy sie skonczyla gra)

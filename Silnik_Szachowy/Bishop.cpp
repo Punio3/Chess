@@ -46,7 +46,7 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 									_Board[Pos.x - i][Pos.y + i]->isZwiazany = true;
 									ZwiazanieWystapilo = true;
 
-									//dodanie pol po ktorych atakuje figura dla atakowanej figury
+									//dodanie do zwiazanej figury po jakich polach atakuje wroga figura
 									for (int z = 0; z < j; z++) {
 										_Board[Pos.x - i][Pos.y + i]->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x - z, Pos.y + z));
 									}
@@ -76,7 +76,7 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 									_Board[Pos.x - i][Pos.y - i]->isZwiazany = true;
 									ZwiazanieWystapilo = true;
 
-									//dodanie pol po ktorych atakuje figura dla atakowanej figury
+									//dodanie do zwiazanej figury po jakich polach atakuje wroga figura
 									for (int z = 0; z < j; z++) {
 										_Board[Pos.x - i][Pos.y - i]->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x - z, Pos.y - z));
 									}
@@ -112,7 +112,7 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 									_Board[Pos.x + i][Pos.y + i]->isZwiazany = true;
 									ZwiazanieWystapilo = true;
 
-									//dodanie pol po ktorych atakuje figura dla atakowanej figury
+									//dodanie do zwiazanej figury po jakich polach atakuje wroga figura
 									for (int z = 0; z < j; z++) {
 										_Board[Pos.x + i][Pos.y + i]->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x + z, Pos.y + z));
 									}
@@ -142,7 +142,7 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 									_Board[Pos.x + i][Pos.y - i]->isZwiazany = true;
 									ZwiazanieWystapilo = true;
 
-									//dodanie pol po ktorych atakuje figura dla atakowanej figury
+									//dodanie do zwiazanej figury po jakich polach atakuje wroga figura
 									for (int z = 0; z < j; z++) {
 										_Board[Pos.x + i][Pos.y - i]->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x + z, Pos.y - z));
 									}

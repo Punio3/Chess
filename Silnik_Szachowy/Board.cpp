@@ -192,13 +192,14 @@ void Board::ClearCheckedFields(std::list<Figure*> Figures) {
     for (Figure* figure : Figures) {
 
         std::list<Position> Positions = figure->PossibleMoves(_Board, Size);
-        if (figure->isZwiazany) {
-            figure->AttackedMovesWhenIsZwiazany.clear();
-        }
-        figure->isZwiazany = false;
 
         for (Position Pos : Positions) {
             _Board[Pos.x][Pos.y]->isCheckedByEnemy = false;
+
+            if (_Board[Pos.x][Pos.y]->isZwiazany) {
+                _Board[Pos.x][Pos.y]->isZwiazany = false;
+                _Board[Pos.x][Pos.y]->AttackedMovesWhenIsZwiazany.clear();
+            }
         }
     }
 }
@@ -216,13 +217,23 @@ void Board::ClearCheckedFieldsForOneFigure(Figure* figure) {
 }
 
 void Board::ClearAttackedFields(std::list<Position> ListOfPositions) {
-    for (Position tmp : ListOfPositions) {
-        _Board[tmp.x][tmp.y]->CanBeAttacked = false;
+    for (Position Pos : ListOfPositions) {
+        _Board[Pos.x][Pos.y]->CanBeAttacked = false;
+
+        if (_Board[Pos.x][Pos.y]->isZwiazany) {
+            _Board[Pos.x][Pos.y]->isZwiazany = false;
+            _Board[Pos.x][Pos.y]->AttackedMovesWhenIsZwiazany.clear();
+        }
     }
 }
 
 void Board::AddAttackedFields(std::list<Position> ListOfPositions) {
-    for (Position tmp : ListOfPositions) {
-        _Board[tmp.x][tmp.y]->CanBeAttacked = true;
+    for (Position Pos : ListOfPositions) {
+        _Board[Pos.x][Pos.y]->CanBeAttacked = true;
+
+        if (_Board[Pos.x][Pos.y]->isZwiazany) {
+            _Board[Pos.x][Pos.y]->isZwiazany = false;
+            _Board[Pos.x][Pos.y]->AttackedMovesWhenIsZwiazany.clear();
+        }
     }
 }

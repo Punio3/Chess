@@ -20,7 +20,7 @@ void GameState::ChangeWhoMoves() {
 void GameState::MakeMove() {
     int x1, x2, y1, y2;
     std::cin >> x1 >> y1 >> x2 >> y2;
-    _Board->ClearCheckedFieldsForOneFigure(_Board->_Board[x1 - 1][y1 - 1]);//to mozliwe niepotrzbene
+
     if (_Board->FigureWithShowedMoves != nullptr) {
         _Board->ClearAttackedFields(_Board->FigureWithShowedMoves->PossibleMoves(_Board->_Board, _Board->Size));
     }
@@ -42,10 +42,13 @@ void GameState::MakeMove() {
 
 void GameState::ShowMoves() {
     int x1, y1;
+
     std::cin >> x1 >> y1;
     x1 = x1 - 1;
     y1 = y1 - 1;
-    std::list<Position> tmp = _Board->_Board[x1][y1]->PossibleMoves(_Board->_Board, _Board->Size);
+
+//    std::list<Position> tmp = _Board->_Board[x1][y1]->PossibleMoves(_Board->_Board, _Board->Size);
+
     if (_Board->FigureWithShowedMoves != nullptr) {
         _Board->ClearAttackedFields(_Board->FigureWithShowedMoves->PossibleMoves(_Board->_Board, _Board->Size));
         _Board->FigureWithShowedMoves = _Board->_Board[x1][y1];
@@ -55,10 +58,11 @@ void GameState::ShowMoves() {
         _Board->FigureWithShowedMoves = _Board->_Board[x1][y1];
         _Board->AddAttackedFields(_Board->FigureWithShowedMoves->PossibleMoves(_Board->_Board, _Board->Size));
     }
-
+/*
     for (Position pos : tmp) {
         std::cout << "Y: " << pos.x + 1 << "  X: " << pos.y + 1 <<std::endl;
     }
+    */
 
     _Board->DisplayBoard(WhoMoves);
 }
