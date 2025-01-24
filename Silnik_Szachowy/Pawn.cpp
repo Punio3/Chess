@@ -1,13 +1,14 @@
 #include "Pawn.h"
 #include "EmptyFigure.h"
+#include "King.h"
 
 Pawn::Pawn(Position pos, Color col) {
 	Pos = pos;
 	Type = FigureType::pawn;
-	CantMove = false;
 	CanBeAttacked = false;
 	isFirstMove = true;
-	isCheckedByEnemy = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
@@ -16,10 +17,10 @@ Pawn::Pawn(Position pos, Color col) {
 Pawn::Pawn() {
 	Pos = Position();
 	Type = FigureType::pawn;
-	CantMove = false;
 	CanBeAttacked = false;
 	isFirstMove = true;
-	isCheckedByEnemy = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
@@ -92,8 +93,26 @@ std::list<Position> Pawn::CheckedFields(Figure*** _Board, int Size) {
 		if (Pos.x - 1 >= 0 && Pos.y - 1 >= 0 && _Board[Pos.x - 1][Pos.y - 1]->Type == none) {
 			ListOfMoves.push_back(Position(Pos.x - 1, Pos.y - 1));
 		}
+		if (Pos.x - 1 >= 0 && Pos.y - 1 >= 0 && _Board[Pos.x - 1][Pos.y - 1]->Type != none && _Board[Pos.x - 1][Pos.y - 1]->FigureColor==white) {
+			ListOfMoves.push_back(Position(Pos.x - 1, Pos.y - 1));
+		}
+		if (Pos.x - 1 >= 0 && Pos.y - 1 >= 0 && _Board[Pos.x - 1][Pos.y - 1]->Type == king && _Board[Pos.x - 1][Pos.y - 1]->FigureColor==black) {
+			King* king = dynamic_cast<King*>(_Board[Pos.x - 1][Pos.y - 1]);
+			king->isChecked = true;
+
+			king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x, Pos.y));
+		}
 		if (Pos.x - 1 >= 0 && Pos.y + 1 < Size && _Board[Pos.x - 1][Pos.y + 1]->Type == none) {
 			ListOfMoves.push_back(Position(Pos.x - 1, Pos.y + 1));
+		}
+		if (Pos.x - 1 >= 0 && Pos.y + 1 < Size && _Board[Pos.x - 1][Pos.y + 1]->Type != none && _Board[Pos.x - 1][Pos.y + 1]->FigureColor ==white) {
+			ListOfMoves.push_back(Position(Pos.x - 1, Pos.y + 1));
+		}
+		if (Pos.x - 1 >= 0 && Pos.y + 1 < Size && _Board[Pos.x - 1][Pos.y + 1]->Type == king && _Board[Pos.x - 1][Pos.y + 1]->FigureColor == black) {
+			King* king = dynamic_cast<King*>(_Board[Pos.x - 1][Pos.y + 1]);
+			king->isChecked = true;
+
+			king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x, Pos.y));
 		}
 	}
 	else if (FigureColor == black) {
@@ -101,22 +120,40 @@ std::list<Position> Pawn::CheckedFields(Figure*** _Board, int Size) {
 		if (Pos.x + 1 < Size && Pos.y - 1 >= 0 && _Board[Pos.x + 1][Pos.y - 1]->Type == none) {
 			ListOfMoves.push_back(Position(Pos.x + 1, Pos.y - 1));
 		}
+		if (Pos.x + 1 < Size && Pos.y - 1 >= 0 && _Board[Pos.x + 1][Pos.y - 1]->Type != none && _Board[Pos.x + 1][Pos.y - 1]->FigureColor==black) {
+			ListOfMoves.push_back(Position(Pos.x + 1, Pos.y - 1));
+		}
+		if (Pos.x + 1 < Size && Pos.y - 1 >= 0 && _Board[Pos.x + 1][Pos.y - 1]->Type == king && _Board[Pos.x + 1][Pos.y - 1]->FigureColor == white) {
+			King* king = dynamic_cast<King*>(_Board[Pos.x + 1][Pos.y - 1]);
+			king->isChecked = true;
+
+			king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x, Pos.y));
+		}
 		if (Pos.x + 1 < Size && Pos.y + 1 < Size && _Board[Pos.x + 1][Pos.y + 1]->Type == none) {
 			ListOfMoves.push_back(Position(Pos.x + 1, Pos.y + 1));
+		}
+		if (Pos.x + 1 < Size && Pos.y + 1 < Size && _Board[Pos.x + 1][Pos.y + 1]->Type != none && _Board[Pos.x + 1][Pos.y + 1]->FigureColor==black) {
+			ListOfMoves.push_back(Position(Pos.x + 1, Pos.y + 1));
+		}
+		if (Pos.x + 1 < Size && Pos.y + 1 < Size && _Board[Pos.x + 1][Pos.y + 1]->Type == king && _Board[Pos.x + 1][Pos.y + 1]->FigureColor == white) {
+			King* king = dynamic_cast<King*>(_Board[Pos.x + 1][Pos.y + 1]);
+			king->isChecked = true;
+
+			king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x, Pos.y));
 		}
 	}
 	return ListOfMoves;
 }
 
 void Pawn::MakeMove(Figure*** board, Position second) {
-	if (!CantMove) {
-		board[second.x][second.y] = board[Pos.x][Pos.y];
-		board[Pos.x][Pos.y] = new EmptyFigure(Position(Pos.x, Pos.y), Color::noColor);
-		if (board[second.x][second.y] != nullptr) {
-			board[second.x][second.y]->Pos.x = second.x;
-			board[second.x][second.y]->Pos.y = second.y;
-		}
-		if (isFirstMove) isFirstMove = false;
+
+	delete(board[second.x][second.y]);
+	board[second.x][second.y] = board[Pos.x][Pos.y];
+	board[Pos.x][Pos.y] = new EmptyFigure(Position(Pos.x, Pos.y), Color::noColor);
+	if (board[second.x][second.y] != nullptr) {
+		board[second.x][second.y]->Pos.x = second.x;
+		board[second.x][second.y]->Pos.y = second.y;
 	}
+	if (isFirstMove) isFirstMove = false;
 
 }

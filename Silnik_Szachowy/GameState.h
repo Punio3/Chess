@@ -1,7 +1,6 @@
 #include "Board.h"
 
 
-
 class GameState {
 public:
 	Player WhoMoves;
@@ -13,4 +12,5 @@ public:
 	void ChangeWhoMoves();
 	void MakeMove();
 	void ShowMoves();
+	void CheckPatAndMat();
 };

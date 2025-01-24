@@ -22,9 +22,9 @@ class Figure {
 public:
 	Position Pos;
 	FigureType Type;
-	bool CantMove;
 	bool CanBeAttacked;
-	bool isCheckedByEnemy;
+	bool isCheckedByWhite;
+	bool isCheckedByBlack;
 	bool isZwiazany; //czy figura chroni krola przed wroga figura
 	std::list<Position> AttackedMovesWhenIsZwiazany;
 	Color FigureColor;

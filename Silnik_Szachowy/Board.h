@@ -1,4 +1,5 @@
 #include "Figure.h"
+#include "King.h"
 #pragma once
 
 enum Player {
@@ -12,8 +13,8 @@ public:
     std::list<Figure*> WhiteFigures;  
     std::list<Figure*> BlackFigures;
     Figure*** _Board;
-    Figure* BlackKing;
-    Figure* WhiteKing;
+    King* BlackKing;
+    King* WhiteKing;
     Figure* FigureWithShowedMoves;
     int Size;         
 
@@ -21,12 +22,12 @@ public:
     Board(int size);  
 
     void DisplayBoard(Player player);  
-    void ClearAttackedFields(std::list<Position> ListOfPositions);
-    void AddAttackedFields(std::list<Position> ListOfPositions);
+    void ClearAttackedFields(std::list<Position> ListOfPositions, Color color);
+    void AddAttackedFields(std::list<Position> ListOfPositions,Color color);
     void AddCheckedFields(std::list<Figure*> Figures);
     void ClearCheckedFields(std::list<Figure*> Figures);
-    void ClearCheckedFieldsForOneFigure(Figure* figure);
-    void DoMove(Position first, Position second);  
+    void CheckIfPawnCanTransform(Position second);
+    std::list<Position> PossibleMovesForFigure(Figure* x, Player whoMoves);
 
     ~Board(); 
 

@@ -3,8 +3,9 @@
 Figure::Figure() {
 	Pos = Position();
 	Type = FigureType::none;
-	CantMove = false;
 	CanBeAttacked = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany= std::list<Position>();
 	FigureColor = noColor;

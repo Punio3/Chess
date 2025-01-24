@@ -1,13 +1,14 @@
 #include "Rook.h"
 #include "EmptyFigure.h"
+#include "King.h"
 
 
 Rook::Rook(Position pos, Color col) {
 	Pos = pos;
 	Type = FigureType::rook;
-	CantMove = false;
 	CanBeAttacked = false;
-	isCheckedByEnemy = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isMoved = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
@@ -17,9 +18,9 @@ Rook::Rook(Position pos, Color col) {
 Rook::Rook() {
 	Pos = Position();
 	Type = FigureType::rook;
-	CantMove = false;
 	CanBeAttacked = false;
-	isCheckedByEnemy = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isMoved = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
@@ -36,6 +37,15 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 			if (k == 0) {
 				if (Pos.x - i >= 0 && _Board[Pos.x - i][Pos.y]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x - i, Pos.y));
+				}
+				else if (Pos.x - i >= 0 && _Board[Pos.x - i][Pos.y]->Type == king && _Board[Pos.x - i][Pos.y]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x - i][Pos.y]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x - j, Pos.y));
+					}
+					break;
 				}
 				else if (Pos.x - i >= 0 && _Board[Pos.x - i][Pos.y]->Type != none && _Board[Pos.x - i][Pos.y]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x - i, Pos.y));
@@ -60,12 +70,22 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.x - i >= 0 && _Board[Pos.x - i][Pos.y]->Type != none && _Board[Pos.x - i][Pos.y]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x - i, Pos.y));
 					break;
 				}
 			}
 			else {
 				if (Pos.x + i < Size && _Board[Pos.x + i][Pos.y]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x + i, Pos.y));
+				}
+				else if (Pos.x + i < Size && _Board[Pos.x + i][Pos.y]->Type == king && _Board[Pos.x + i][Pos.y]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x + i][Pos.y]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x + j, Pos.y));
+					}
+					break;
 				}
 				else if (Pos.x + i < Size && _Board[Pos.x + i][Pos.y]->Type != none && _Board[Pos.x + i][Pos.y]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x + i, Pos.y));
@@ -89,6 +109,7 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.x + i < Size && _Board[Pos.x + i][Pos.y]->Type != none && _Board[Pos.x + i][Pos.y]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x + i, Pos.y));
 					break;
 				}
 			}
@@ -101,6 +122,15 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 			if (k == 0) {
 				if (Pos.y - i >= 0 && _Board[Pos.x][Pos.y - i]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x, Pos.y - i));
+				}
+				else if (Pos.y - i >= 0 && _Board[Pos.x][Pos.y - i]->Type == king && _Board[Pos.x][Pos.y - i]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x][Pos.y - i]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x, Pos.y - j));
+					}
+					break;
 				}
 				else if (Pos.y - i >= 0 && _Board[Pos.x][Pos.y - i]->Type != none && _Board[Pos.x][Pos.y - i]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x, Pos.y - i));
@@ -124,12 +154,22 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.y - i >= 0 && _Board[Pos.x][Pos.y - i]->Type != none && _Board[Pos.x][Pos.y - i]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x, Pos.y - i));
 					break;
 				}
 			}
 			else {
 				if (Pos.y + i < Size && _Board[Pos.x][Pos.y + i]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x, Pos.y + i));
+				}
+				else if (Pos.y + i < Size && _Board[Pos.x][Pos.y + i]->Type == king && _Board[Pos.x][Pos.y + i]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x][Pos.y + i]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x, Pos.y + j));
+					}
+					break;
 				}
 				else if (Pos.y + i < Size && _Board[Pos.x][Pos.y + i]->Type != none && _Board[Pos.x][Pos.y + i]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x, Pos.y + i));
@@ -153,6 +193,7 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.y + i < Size && _Board[Pos.x][Pos.y + i]->Type != none && _Board[Pos.x][Pos.y + i]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x, Pos.y + i));
 					break;
 				}
 			}
@@ -168,14 +209,15 @@ std::list<Position> Rook::PossibleMoves(Figure*** _Board, int Size) {
 }
 
 void Rook::MakeMove(Figure*** board, Position second) {
-	if (!CantMove) {
-		board[second.x][second.y] = board[Pos.x][Pos.y];
-		board[Pos.x][Pos.y] = new EmptyFigure(Position(Pos.x, Pos.y), Color::noColor);
-		if (board[second.x][second.y] != nullptr) {
-			board[second.x][second.y]->Pos.x = second.x;
-			board[second.x][second.y]->Pos.y = second.y;
-		}
-		if (!isMoved) isMoved = true;
+
+	delete(board[second.x][second.y]);
+	board[second.x][second.y] = board[Pos.x][Pos.y];
+	board[Pos.x][Pos.y] = new EmptyFigure(Position(Pos.x, Pos.y), Color::noColor);
+	if (board[second.x][second.y] != nullptr) {
+		board[second.x][second.y]->Pos.x = second.x;
+		board[second.x][second.y]->Pos.y = second.y;
 	}
+	if (!isMoved) isMoved = true;
+	
 
 }

@@ -1,13 +1,13 @@
 #include "Bishop.h"
 #include "EmptyFigure.h"
-
+#include "King.h"
 
 Bishop::Bishop(Position pos, Color col) {
 	Pos = pos;
 	Type = FigureType::bishop;
-	CantMove = false;
 	CanBeAttacked = false;
-	isCheckedByEnemy = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
@@ -16,9 +16,9 @@ Bishop::Bishop(Position pos, Color col) {
 Bishop::Bishop() {
 	Pos = Position();
 	Type = FigureType::bishop;
-	CantMove = false;
 	CanBeAttacked = false;
-	isCheckedByEnemy = false;
+	isCheckedByWhite = false;
+	isCheckedByBlack = false;
 	isZwiazany = false;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
@@ -35,6 +35,15 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 			if (k == 0) {
 				if (Pos.x - i >= 0 && Pos.y + i < Size && _Board[Pos.x - i][Pos.y + i]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x - i, Pos.y + i));
+				}
+				else if (Pos.x - i >= 0 && Pos.y + i < Size && _Board[Pos.x - i][Pos.y + i]->Type == king && _Board[Pos.x - i][Pos.y + i]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x - i][Pos.y + i]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x - j, Pos.y + j));
+					}
+					break;
 				}
 				else if (Pos.x - i >= 0 && Pos.y + i < Size && _Board[Pos.x - i][Pos.y + i]->Type != none && _Board[Pos.x - i][Pos.y + i]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x - i, Pos.y + i));
@@ -59,12 +68,22 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.x - i >= 0 && Pos.y + i < Size && _Board[Pos.x - i][Pos.y + i]->Type != none && _Board[Pos.x - i][Pos.y + i]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x - i, Pos.y + i));
 					break;
 				}
 			}
 			else {
 				if (Pos.x - i >= 0 && Pos.y - i >= 0 && _Board[Pos.x - i][Pos.y - i]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x - i, Pos.y - i));
+				}
+				else if (Pos.x - i >= 0 && Pos.y - i >= 0 && _Board[Pos.x - i][Pos.y - i]->Type == king && _Board[Pos.x - i][Pos.y - i]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x - i][Pos.y - i]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x - j, Pos.y - j));
+					}
+					break;
 				}
 				else if (Pos.x - i >= 0 && Pos.y - i >= 0 && _Board[Pos.x - i][Pos.y - i]->Type != none && _Board[Pos.x - i][Pos.y - i]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x - i, Pos.y - i));
@@ -89,6 +108,7 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.x - i >= 0 && Pos.y - i >= 0 && _Board[Pos.x - i][Pos.y - i]->Type != none && _Board[Pos.x - i][Pos.y - i]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x - i, Pos.y - i));
 					break;
 				}
 			}
@@ -101,6 +121,15 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 			if (k == 0) {
 				if (Pos.x + i < Size && Pos.y + i < Size && _Board[Pos.x + i][Pos.y + i]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x + i, Pos.y + i));
+				}
+				else if (Pos.x + i < Size && Pos.y + i < Size && _Board[Pos.x + i][Pos.y + i]->Type == king && _Board[Pos.x + i][Pos.y + i]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x + i][Pos.y + i]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x + j, Pos.y + j));
+					}
+					break;
 				}
 				else if (Pos.x + i < Size && Pos.y + i < Size && _Board[Pos.x + i][Pos.y + i]->Type != none && _Board[Pos.x + i][Pos.y + i]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x + i, Pos.y + i));
@@ -125,12 +154,22 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.x + i < Size && Pos.y + i < Size && _Board[Pos.x + i][Pos.y + i]->Type != none && _Board[Pos.x + i][Pos.y + i]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x + i, Pos.y + i));
 					break;
 				}
 			}
 			else {
 				if (Pos.x + i < Size && Pos.y - i >= 0 && _Board[Pos.x + i][Pos.y - i]->Type == none) {
 					ListOfMoves.push_back(Position(Pos.x + i, Pos.y - i));
+				}
+				else if (Pos.x + i < Size && Pos.y - i >= 0 && _Board[Pos.x + i][Pos.y - i]->Type == king && _Board[Pos.x + i][Pos.y - i]->FigureColor != FigureColor) {
+					King* king = dynamic_cast<King*>(_Board[Pos.x + i][Pos.y - i]);
+					king->isChecked = true;
+					//dodanie pol po ktorych atakuje figura przeciwnego krola
+					for (int j = 0; j < i; j++) {
+						king->AttackedMovesWhenIsZwiazany.push_back(Position(Pos.x + j, Pos.y - j));
+					}
+					break;
 				}
 				else if (Pos.x + i < Size && Pos.y - i >= 0 && _Board[Pos.x + i][Pos.y - i]->Type != none && _Board[Pos.x + i][Pos.y - i]->FigureColor != FigureColor) {
 					ListOfMoves.push_back(Position(Pos.x + i, Pos.y - i));
@@ -155,6 +194,7 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 					break;
 				}
 				else if (Pos.x + i < Size && Pos.y - i >= 0 && _Board[Pos.x + i][Pos.y - i]->Type != none && _Board[Pos.x + i][Pos.y - i]->FigureColor == FigureColor) {
+					ListOfMoves.push_back(Position(Pos.x + i, Pos.y - i));
 					break;
 				}
 			}
@@ -169,13 +209,14 @@ std::list<Position> Bishop::PossibleMoves(Figure*** _Board, int Size) {
 }
 
 void Bishop::MakeMove(Figure*** board, Position second) {
-	if (!CantMove) {
-		board[second.x][second.y] = board[Pos.x][Pos.y];
-		board[Pos.x][Pos.y] = new EmptyFigure(Position(Pos.x, Pos.y), Color::noColor);
-		if (board[second.x][second.y] != nullptr) {
-			board[second.x][second.y]->Pos.x = second.x;
-			board[second.x][second.y]->Pos.y = second.y;
-		}		
-	}
+
+	delete(board[second.x][second.y]);
+	board[second.x][second.y] = board[Pos.x][Pos.y];
+	board[Pos.x][Pos.y] = new EmptyFigure(Position(Pos.x, Pos.y), Color::noColor);
+	if (board[second.x][second.y] != nullptr) {
+		board[second.x][second.y]->Pos.x = second.x;
+		board[second.x][second.y]->Pos.y = second.y;
+	}		
+	
 
 }
