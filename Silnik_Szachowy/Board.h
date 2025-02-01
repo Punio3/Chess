@@ -20,6 +20,7 @@ public:
 
     Board();
     Board(int size);  
+    Board(bool x); // for copy board 
 
     void DisplayBoard(Player player);  
     void ClearAttackedFields(std::list<Position> ListOfPositions, Color color);
@@ -28,6 +29,7 @@ public:
     void ClearCheckedFields(std::list<Figure*> Figures);
     void CheckIfPawnCanTransform(Position second);
     std::list<Position> PossibleMovesForFigure(Figure* x, Player whoMoves);
+    Board* copyBoard();
 
     ~Board(); 
 

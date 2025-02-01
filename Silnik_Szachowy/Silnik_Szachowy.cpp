@@ -26,13 +26,37 @@ void WybierzAkcje(GameState* gmstate) {
     }
 }
 
+void CheckIfGameEnded(GameState* _GameState) {
+    int option;
+    if (_GameState->status == pat || _GameState->status == mat) {
+        cout << "Chcesz rozpoczas nowa gre?\n1)Tak\n2)Nie\n";
+        cin >> option;
+        switch (option) {
+        case 1:
+            _GameState->CreateNewBoard();
+            _GameState->_Board->DisplayBoard(_GameState->WhoMoves);
+            break;
+        case 2:
+
+            break;
+        }
+    }
+}
+
 int main()
 {
     GameState* _GameState = new GameState();
     _GameState->_Board->DisplayBoard(_GameState->WhoMoves);
     while (true) {
         WybierzAkcje(_GameState);
+        CheckIfGameEnded(_GameState);
     }
+    //Testowanie kopiowania gamestate i usuwanie poprzedniego
+    /* 
+        GameState* _gm = _GameState->copyGameState();
+        delete(_GameState);
+        _gm->_Board->DisplayBoard(_gm->WhoMoves);
+        */
 }
 
 

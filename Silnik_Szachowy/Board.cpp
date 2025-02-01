@@ -24,6 +24,17 @@ Board::Board() {
     InitializeBoard();
 }
 
+Board::Board(bool x) {
+    Size = 8;
+    _Board = new Figure * *[Size];
+    for (int i = 0; i < Size; i++) {
+        _Board[i] = new Figure * [Size];
+        for (int j = 0; j < Size; j++) {
+            _Board[i][j] = nullptr;
+        }
+    }
+}
+
 Board::Board(int size) : Size(size) {
     _Board = new Figure * *[Size];
     for (int i = 0; i < Size; i++) {
@@ -296,4 +307,51 @@ void Board::CheckIfPawnCanTransform(Position second) {
             }
         }
     }
+}
+
+Board* Board::copyBoard() {
+    Board* NewBoard = new Board(true);
+
+    //Tworzenie planszy i dodanie wskaznikow na kroli
+    for (int j = 0; j < Size; j++) {
+        for (int i = 0; i < Size; i++) {
+            Figure* TmpFigure = _Board[j][i];
+            if (TmpFigure->Type == none) {
+                NewBoard->_Board[j][i] = new EmptyFigure(TmpFigure->Pos, TmpFigure->FigureColor);
+            }
+            else if (TmpFigure->Type == horse) {
+                NewBoard->_Board[j][i] = new Horse(TmpFigure->Pos, TmpFigure->FigureColor);
+            }
+            else if (TmpFigure->Type == bishop) {
+                NewBoard->_Board[j][i] = new Bishop(TmpFigure->Pos, TmpFigure->FigureColor);
+            }
+            else if (TmpFigure->Type == queen) {
+                NewBoard->_Board[j][i] = new Queen(TmpFigure->Pos, TmpFigure->FigureColor);
+            }
+            else if (TmpFigure->Type == rook) {
+                NewBoard->_Board[j][i] = new Rook(TmpFigure->Pos, TmpFigure->FigureColor);
+            }
+            else if (TmpFigure->Type == king) {
+                NewBoard->_Board[j][i] = new King(TmpFigure->Pos, TmpFigure->FigureColor);
+                if (TmpFigure->FigureColor == black) {
+                    NewBoard->BlackKing = dynamic_cast<King*>(NewBoard->_Board[j][i]);
+                }
+                else {
+                    NewBoard->WhiteKing = dynamic_cast<King*>(NewBoard->_Board[j][i]);
+                }
+            }
+            else if (TmpFigure->Type == pawn) {
+                NewBoard->_Board[j][i] = new Pawn(TmpFigure->Pos, TmpFigure->FigureColor);
+            }
+
+            //Dodanie figur do list
+            if (TmpFigure->FigureColor == black) {
+                NewBoard->BlackFigures.push_back(NewBoard->_Board[j][i]);
+            }
+            else if(TmpFigure->FigureColor == white){
+                NewBoard->WhiteFigures.push_back(NewBoard->_Board[j][i]);
+            }
+        }
+    }
+    return NewBoard;
 }

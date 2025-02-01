@@ -5,13 +5,24 @@
 GameState::GameState() {
 	_Board = new Board(8);
 	WhoMoves = Playerwhite;
+    status = during;
 }
 
 GameState::GameState(Player whomoves, Board board) {
 	_Board = &board;
 	WhoMoves = whomoves;
+    status = during;
 }
 
+GameState::GameState(Status Status, Player whomoves, Board* board) {
+    _Board = board;
+    WhoMoves = whomoves;
+    status = Status;
+}
+
+GameState::~GameState() {
+    delete(_Board);
+}
 void GameState::ChangeWhoMoves() {
 	if (WhoMoves == Playerblack) WhoMoves = Playerwhite;
 	else WhoMoves = Playerblack;
@@ -104,9 +115,11 @@ void GameState::CheckPatAndMat() {
 
         if (_Board->WhiteKing->isChecked) {
             std::cout << "Czarne wygraly przez mata" << std::endl;
+            status = mat;
         }
         else {
             std::cout << "Remis przez pata" << std::endl;
+            status = pat;
         }
     }
     else {
@@ -123,9 +136,23 @@ void GameState::CheckPatAndMat() {
 
         if (_Board->BlackKing->isChecked) {
             std::cout << "Biale wygraly przez mata"<<std::endl;
+            status = mat;
         }
         else {
             std::cout << "Remis przez pata" << std::endl;
+            status = pat;
         }
     }
+}
+
+void GameState::CreateNewBoard() {
+    delete _Board;
+    _Board= new Board(8);
+    WhoMoves = Playerwhite;
+    status = during;
+}
+
+GameState* GameState::copyGameState() {
+    GameState* newGameState = new GameState(status, WhoMoves,_Board->copyBoard());
+    return newGameState;
 }
