@@ -12,6 +12,7 @@ King::King(Position pos, Color col) {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 1000;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
@@ -26,6 +27,7 @@ King::King() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 1000;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
@@ -163,4 +165,12 @@ void King::MakeMove(Figure*** board, Position second) {
 			board[second.x][second.y]->Pos.x = second.x;
 			board[second.x][second.y]->Pos.y = second.y;
 		}
+}
+
+
+int King::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }

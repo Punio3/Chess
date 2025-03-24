@@ -1,3 +1,4 @@
+
 class Position {
 public:
 	int x;

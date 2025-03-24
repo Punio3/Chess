@@ -7,6 +7,7 @@ EmptyFigure::EmptyFigure(Position pos, Color col) {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 0;
 	FigureColor = col;
 }
 
@@ -17,6 +18,7 @@ EmptyFigure::EmptyFigure() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 0;
 	FigureColor = noColor;
 }
 
@@ -34,4 +36,12 @@ void EmptyFigure::MakeMove(Figure*** board, Position second) {
 		board[second.x][second.y]->Pos.y = second.y;
 	}
 	
+}
+
+
+int EmptyFigure::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }

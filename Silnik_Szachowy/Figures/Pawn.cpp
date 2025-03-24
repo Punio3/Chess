@@ -10,6 +10,7 @@ Pawn::Pawn(Position pos, Color col) {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 1;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
@@ -22,6 +23,7 @@ Pawn::Pawn() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 1;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
@@ -156,4 +158,12 @@ void Pawn::MakeMove(Figure*** board, Position second) {
 	}
 	if (isFirstMove) isFirstMove = false;
 
+}
+
+
+int Pawn::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }

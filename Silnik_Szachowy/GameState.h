@@ -12,10 +12,12 @@ public:
 	Player WhoMoves;
 	Board* _Board;
 	Status status;
+	int WhitePoints;
+	int BlackPoints;
 
 	GameState();
 	GameState(Player whomoves,Board board);
-	GameState(Status status, Player whomoves, Board* board);
+	GameState(int whitepoints, int blackpoints, Status status, Player whomoves, Board* board);
 	~GameState();
 
 	void ChangeWhoMoves();
@@ -24,4 +26,5 @@ public:
 	void CheckPatAndMat();
 	void CreateNewBoard();
 	GameState* copyGameState();
+	int OcenaHeurstycznaStanu();
 };

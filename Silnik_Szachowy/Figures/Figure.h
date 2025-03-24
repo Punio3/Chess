@@ -26,6 +26,7 @@ public:
 	bool isCheckedByWhite;
 	bool isCheckedByBlack;
 	bool isZwiazany; //czy figura chroni krola przed wroga figura
+	int ValueInPoints; //ile punktow warta jest figura
 	std::list<Position> AttackedMovesWhenIsZwiazany;
 	Color FigureColor;
 	
@@ -33,6 +34,7 @@ public:
 	virtual std::list<Position> PossibleMoves(Figure*** _Board,int Size) = 0;
 	virtual void MakeMove(Figure*** board, Position second) = 0;
 	std::list<Position> GiveListOfDuplicateFields(std::list<Position> first, std::list<Position> second);
+	virtual int OcenaHeurystycznaFigury() = 0;
 
 	Figure();
 };

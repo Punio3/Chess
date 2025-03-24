@@ -11,6 +11,7 @@ Rook::Rook(Position pos, Color col) {
 	isCheckedByBlack = false;
 	isMoved = false;
 	isZwiazany = false;
+	ValueInPoints = 5;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
@@ -23,6 +24,7 @@ Rook::Rook() {
 	isCheckedByBlack = false;
 	isMoved = false;
 	isZwiazany = false;
+	ValueInPoints = 5;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
@@ -220,4 +222,13 @@ void Rook::MakeMove(Figure*** board, Position second) {
 	if (!isMoved) isMoved = true;
 	
 
+}
+
+
+
+int Rook::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }

@@ -1,11 +1,11 @@
 #include "Figure.h"
 
-class Rook : public Figure {
+class Horse : public Figure {
 public:
 	std::list<Position> PossibleMoves(Figure*** _Board, int Size) override;
 	void MakeMove(Figure*** board, Position second) override;
-	bool isMoved;
+	int OcenaHeurystycznaFigury() override;
 
-	Rook();
-	Rook(Position pos, Color col);
+	Horse();
+	Horse(Position pos, Color col);
 };

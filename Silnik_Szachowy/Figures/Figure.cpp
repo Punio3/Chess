@@ -7,6 +7,7 @@ Figure::Figure() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 0;
 	AttackedMovesWhenIsZwiazany= std::list<Position>();
 	FigureColor = noColor;
 }

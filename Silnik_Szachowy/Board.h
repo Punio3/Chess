@@ -1,5 +1,5 @@
-#include "Figure.h"
-#include "King.h"
+#include "Figures/Figure.h"
+#include "Figures/King.h"
 #pragma once
 
 enum Player {
@@ -22,7 +22,7 @@ public:
     Board(int size);  
     Board(bool x); // for copy board 
 
-    void DisplayBoard(Player player);  
+    void DisplayBoard(Player player, int WhitePoints, int BlackPoints);
     void ClearAttackedFields(std::list<Position> ListOfPositions, Color color);
     void AddAttackedFields(std::list<Position> ListOfPositions,Color color);
     void AddCheckedFields(std::list<Figure*> Figures);

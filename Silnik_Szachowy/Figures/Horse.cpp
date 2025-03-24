@@ -9,6 +9,7 @@ Horse::Horse(Position pos, Color col) {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 3;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
@@ -20,6 +21,7 @@ Horse::Horse() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 3;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
@@ -127,4 +129,12 @@ void Horse::MakeMove(Figure*** board, Position second) {
 	}
 	
 
+}
+
+
+int Horse::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }

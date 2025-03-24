@@ -9,6 +9,7 @@ Queen::Queen(Position pos, Color col) {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 9;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
@@ -20,6 +21,7 @@ Queen::Queen() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 9;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
@@ -394,4 +396,12 @@ void Queen::MakeMove(Figure*** board, Position second) {
 
 
 
+}
+
+
+int Queen::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }

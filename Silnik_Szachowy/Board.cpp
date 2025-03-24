@@ -1,11 +1,11 @@
 #include<iostream>
 #include "Board.h"
-#include "Pawn.h"
-#include "Horse.h"
-#include "Rook.h"
-#include "Bishop.h"
-#include "Queen.h"
-#include "EmptyFigure.h"
+#include "Figures/Pawn.h"
+#include "Figures/Horse.h"
+#include "Figures/Rook.h"
+#include "Figures/Bishop.h"
+#include "Figures/Queen.h"
+#include "Figures/EmptyFigure.h"
 
 #define RED "\033[31m"
 #define BLUE "\033[34m"
@@ -118,13 +118,14 @@ Board::~Board() {
 }
 
 
-void Board::DisplayBoard(Player player) {
+void Board::DisplayBoard(Player player, int WhitePoints, int BlackPoints) {
     if (player == Playerwhite) {
         std::cout << "Ruch bialego\n";
     }
     else {
         std::cout << BLUE << "Ruch czarnego\n"<<RESET;
     }
+    std::cout << "Black Points: " << BlackPoints<<std::endl;
     std::cout << " ";
     for (int k = 0; k < Size; k++) std::cout << "   "<<k+1;
     std::cout << std::endl;
@@ -164,7 +165,7 @@ void Board::DisplayBoard(Player player) {
         for (int k = 0; k < Size; k++) std::cout << " ---";
         std::cout << std::endl;
     }
-
+    std::cout << "White Points: " << WhitePoints << std::endl;
 }
 
 

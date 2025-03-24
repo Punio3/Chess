@@ -9,6 +9,7 @@ Bishop::Bishop(Position pos, Color col) {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 3;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = col;
 }
@@ -20,6 +21,7 @@ Bishop::Bishop() {
 	isCheckedByWhite = false;
 	isCheckedByBlack = false;
 	isZwiazany = false;
+	ValueInPoints = 3;
 	AttackedMovesWhenIsZwiazany = std::list<Position>();
 	FigureColor = noColor;
 }
@@ -219,4 +221,11 @@ void Bishop::MakeMove(Figure*** board, Position second) {
 	}		
 	
 
+}
+
+int Bishop::OcenaHeurystycznaFigury() {
+
+
+
+	return 0;
 }
